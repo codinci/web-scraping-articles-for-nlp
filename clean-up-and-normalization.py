@@ -5,7 +5,7 @@
 #Cleans and normalizes the content
 #Write each processed sentence into a text file
 
-import imp
+import json
 import spacy
 from spacy.lang.en import English
 from spacy.lang.en.stop_words import STOP_WORDS
@@ -99,11 +99,12 @@ def remove_special_chars(text):
 
 #Splitting text into sentences using spaCy
 def split_sentences (document):
-    sentences = [sent.string.strip() for sent in doc.sents]
+    sentences = [sent.text.strip() for sent in doc.sents]
     return sentences
 
 sentence_index = 0
-with open('/home/davi3/Projects/PythonProjects/ForexInfo/article_body.json') as json_file:
+
+with open('/home/davi3/Projects/PythonProjects/ForexInfo/articles.json') as json_file:
     data = json.load(json_file)
 
     with open("article_all.txt", "w") as text_file:
