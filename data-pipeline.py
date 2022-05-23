@@ -2,6 +2,7 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 import os
 
+
 import datetime
 
 parent_dir = "/home/davi3/Projects/PythonProjects/ForexInfo/"
@@ -18,7 +19,7 @@ labeled_data_sets = []
 
 for i, file_name in enumerate(FILE_NAMES):
     lines_dataset = tf.data.TextLineDataset(os.path.join(parent_dir, file_name))
-    labeled_dataset =lines_dataset.map(lambda ex: labeler(ex, i))
+    labeled_dataset = lines_dataset.map(lambda ex: labeler(ex, i))
     labeled_data_sets.append(labeled_dataset)
 
 all_labeled_data = labeled_data_sets[0]
@@ -62,7 +63,7 @@ encoded_example = encoder.encode(example_text)
 print(encoded_example)
 
 def encode(text_sensor, label):
-    encoded_text = encoder.encode(text_sensor,numpy())
+    encoded_text = encoder.encode(text_sensor.numpy())
     return encoded_text,label
 
 def encode_map_fn(text, label):
@@ -81,8 +82,6 @@ test_data = all_encoded_data.take(TAKE_SIZE)
 test_data = test_data.padded_batch(BATCH_SIZE, padded_shapes=([200], ()))
 
 sample_text, sample_labels = next(iter(test_data))
-sample_text[0], sample_labels[0]
-
 print(sample_text[10])
 print(sample_labels[10])
 
@@ -92,7 +91,7 @@ print(sample_labels[11])
 #Training a LSM model to test the data pipelines
 vocab_size += 1
 
-model = tf.keras.Sequential(1)
+model = tf.keras.Sequential()
 model.add(tf.keras.layers.Embedding(vocab_size, 64))
 model.add(tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(64)))
 
